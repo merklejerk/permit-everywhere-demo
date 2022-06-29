@@ -25,7 +25,7 @@ import TestUni2RouterAbi from './assets/TestUni2Router.abi.json';
 import ERC20PermitEverywhereAbi from './assets/ERC20PermitEverywhere.abi.json';
 
 const TEST_ROUTERS = {
-    '4': '0xE3e12cEAe9da93b81EA3fc4A722756790171D4Fe',
+    '4': '0x405c4eda621b963a4b9b3eebb46f9549fd91fc67',
 };
 
 const UNI_ROUTERS = {
@@ -33,7 +33,7 @@ const UNI_ROUTERS = {
 };
 
 const PES = {
-    '4': '0x3979B968f44C05ad2b7481578829EF90562C9610'
+    '4': '0xba04a9229af8ba43d9b4b23d9948c18a7fcc0083'
 };
 
 const TOKENS = {
@@ -112,9 +112,9 @@ export default {
             const sigRaw = await this.signer._signTypedData(msgParams.domain, msgParams.types, msgParams.message);
             const sigBuf = Buffer.from(sigRaw.slice(2), 'hex');
             const sig = {
+                v: parseInt(sigBuf.slice(64, 65).toString('hex'), 16),
                 r: '0x'+sigBuf.slice(0, 32).toString('hex'),
                 s: '0x'+sigBuf.slice(32, 64).toString('hex'),
-                v: parseInt(sigBuf.slice(64, 65).toString('hex'), 16),
             };
             const r = await (await this.testRouter.swapExactTokensForETH(
                 msgParams.message.maxAmount,
